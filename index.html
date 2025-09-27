@@ -2,16 +2,11 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
-  <!-- Disable zoom; use full screen width; support notched devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="color-scheme" content="light dark" />
   <title>MEDASKCA – Theatre Ops, Reimagined</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
-
   <style>
-    /* =========================
-       THEME TOKENS
-    ==========================*/
     :root{
       --bg:#0b0d10;
       --surface:#0e1116;
@@ -19,19 +14,14 @@
       --muted:#b9c4d2;
       --muted-strong:#d7dee9;
       --line:#1e2430;
-
       --teal:#14b8a6;
       --blue:#3b82f6;
       --amber:#fbbf24;
       --green:#10b981;
-
       --card:rgba(255,255,255,.02);
       --shadow:0 14px 30px rgba(0,0,0,.45);
-
       --pill-bg:rgba(255,255,255,.06);
       --pill-border:rgba(255,255,255,.12);
-
-      /* Responsive gutters (safe-area aware) */
       --gutter: 16px;
       --gutter-left: max(var(--gutter), env(safe-area-inset-left));
       --gutter-right:max(var(--gutter), env(safe-area-inset-right));
@@ -45,14 +35,10 @@
       --line:#d9e1ea;
       --card:rgba(0,0,0,.03);
       --shadow:0 10px 22px rgba(0,0,0,.12);
-
       --pill-bg:rgba(0,0,0,.04);
       --pill-border:rgba(0,0,0,.10);
     }
 
-    /* =========================
-       GLOBAL / LAYOUT
-    ==========================*/
     *{ box-sizing:border-box }
     html, body{ height:100% }
     body{
@@ -74,10 +60,6 @@
       padding-right: var(--gutter-right);
     }
 
-    /* =========================
-       THEME TOGGLE — dual-head OR light (faces bottom-left)
-       (Only visual replacement; JS unchanged)
-    ==========================*/
     .theme-toggle{
       position:fixed; top:14px; right:16px; z-index:60;
       width:176px; height:128px;
@@ -86,10 +68,8 @@
     }
     .theme-toggle:focus-visible{ outline:2px solid var(--blue); outline-offset:4px; border-radius:16px }
     .theme-toggle svg{ width:100%; height:100%; display:block; transform:rotate(-35deg); transform-origin:75% 20% }
-    /* default (dark) → OFF */
     .theme-toggle .or-lens{ fill:var(--muted-strong); transition:fill .22s ease, filter .22s ease }
     .theme-toggle .or-glow{ opacity:0; transition:opacity .25s ease }
-    /* light → ON */
     [data-theme="light"] .theme-toggle .or-lens{
       fill:#eaf6ff;
       filter: drop-shadow(0 0 7px rgba(190,230,255,.85))
@@ -97,9 +77,6 @@
     }
     [data-theme="light"] .theme-toggle .or-glow{ opacity:.55 }
 
-    /* =========================
-       HERO & KEY SECTIONS (unchanged content; tuned for mobile)
-    ==========================*/
     .hero{
       position:relative; min-height:620px; display:grid; place-items:center; text-align:center; isolation:isolate; overflow:hidden;
       background: radial-gradient(120% 100% at 50% 0%, #0c1219 0%, var(--bg) 60%, var(--bg) 100%);
@@ -162,7 +139,8 @@
     .liveops:hover .ticker{ animation-play-state:paused }
 
     section{ padding:36px 0 }
-    .section-head{ text-align:center; margin:0 0 22px }
+
+    .section-head{ text-align:center; margin:0 0 24px }
     .section-head h2{ font:800 28px Poppins,Inter }
     .section-head p{ color:var(--muted) }
 
@@ -179,9 +157,11 @@
     }
     .tab:hover{ filter:brightness(1.08) }
     .tab[aria-selected="true"]{ background:linear-gradient(135deg,var(--teal),var(--blue)); color:#061018; border-color:transparent }
-    .panels{ position:relative; min-height:160px }
-    .panel{ position:absolute; inset:0; opacity:0; transform:translateY(8px); transition:opacity .35s ease, transform .35s ease }
-    .panel.is-on{ opacity:1; transform:translateY(0) }
+
+    /* REAL FIX: panels contribute to layout height */
+    .panels{ position:relative }
+    .panel{ position:static; display:none; opacity:0; transform:translateY(8px); transition:opacity .35s ease, transform .35s ease }
+    .panel.is-on{ display:block; opacity:1; transform:translateY(0) }
     .panel .grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:18px }
 
     .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px }
@@ -207,11 +187,6 @@
     .footer a{ display:block; margin:4px 0; color:#7a8595 }
     .footer a:hover{ color:var(--text) }
 
-    /* =========================
-       RESPONSIVE TUNING
-       - Fold 5 folded ≈ ~412 CSS px wide; iPhones ~375–430
-       - Use full width, scale toggle/logo, lighten effects
-    ==========================*/
     @media (max-width: 900px){
       .panel .grid{ grid-template-columns:1fr }
       .quotes{ grid-template-columns:1fr 1fr }
@@ -226,7 +201,7 @@
       .avatar-fixed{ width:200px; height:200px; flex:0 0 200px }
       .quotes{ grid-template-columns:1fr }
     }
-    @media (max-width: 480px){ /* Fold front display / smaller iPhones */
+    @media (max-width: 480px){
       :root{ --gutter: 12px }
       .theme-toggle{ width:136px; height:98px; top:10px; right:10px }
       .hero{ min-height:520px; padding:24px 0 14px }
@@ -238,8 +213,6 @@
       .two{ grid-template-columns:1fr }
       .cta{ padding:12px 18px }
     }
-
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .logo-sphere::before, .logo-sphere::after, .ticker{ animation:none !important }
       .slide, .panel{ transition:none }
@@ -248,17 +221,15 @@
 </head>
 
 <body>
-  <!-- Floating theme toggle — dual-head OR light (visual only; logic unchanged) -->
+  <!-- Toggle -->
   <button class="theme-toggle" id="themeBtn" aria-label="Switch theme" aria-pressed="false" title="Toggle theme">
     <svg viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!-- mount + short arms -->
       <g transform="translate(500,84)">
         <rect x="-26" y="-18" width="52" height="18" rx="6" fill="#b8c3cb"/>
         <rect x="-6"  y="0"   width="12" height="34" rx="6" fill="#b8c3cb"/>
         <path d="M-6,34 L-210,120" stroke="#b8c3cb" stroke-width="16" stroke-linecap="round"/>
         <path d="M 6,34 L 210,120" stroke="#b8c3cb" stroke-width="16" stroke-linecap="round"/>
       </g>
-      <!-- LEFT HEAD -->
       <g transform="translate(290,240)">
         <circle class="or-glow" r="118" fill="rgba(160,210,255,.28)" style="filter:blur(18px)"/>
         <circle r="108" fill="#cfd6dc" stroke="#aeb9c2" stroke-width="10"/>
@@ -267,7 +238,6 @@
         <ellipse class="or-lens" cx="-42" cy=" 26" rx="24" ry="18"/>
         <ellipse class="or-lens" cx=" 42" cy=" 26" rx="24" ry="18"/>
       </g>
-      <!-- RIGHT HEAD -->
       <g transform="translate(710,240)">
         <circle class="or-glow" r="118" fill="rgba(160,210,255,.28)" style="filter:blur(18px)"/>
         <circle r="108" fill="#cfd6dc" stroke="#aeb9c2" stroke-width="10"/>
@@ -279,7 +249,7 @@
     </svg>
   </button>
 
-  <!-- HERO (content unchanged) -->
+  <!-- HERO -->
   <section class="hero" id="home" aria-label="Hero">
     <div class="hero__overlay"></div>
     <div class="wrap">
@@ -518,13 +488,10 @@
   </footer>
 
   <script>
-    // Guard against iOS pinch zoom (since you asked for no zoom).
-    // Safari fires 'gesture*' events; prevent default to keep maximum-scale=1.
     ['gesturestart','gesturechange','gestureend'].forEach(evt=>{
       window.addEventListener(evt, e=>e.preventDefault(), {passive:false});
     });
 
-    // Rotating text (unchanged)
     (function(){
       const slides = Array.from(document.querySelectorAll('#text-rotator .slide'));
       let i = 0;
@@ -537,7 +504,6 @@
       setInterval(next, 3400);
     })();
 
-    // Tabs (unchanged)
     (function(){
       const tabs = [...document.querySelectorAll('.tab')];
       const panels = [...document.querySelectorAll('.panel')];
@@ -552,7 +518,6 @@
       }));
     })();
 
-    // Reveal cards on scroll (unchanged)
     (function(){
       const cards = document.querySelectorAll('.card');
       const obs = new IntersectionObserver((entries)=>{
@@ -568,7 +533,6 @@
       cards.forEach(c=>obs.observe(c));
     })();
 
-    // Theme toggle (logic unchanged)
     (function(){
       const btn = document.getElementById('themeBtn');
       const key = 'medaskca-theme';
